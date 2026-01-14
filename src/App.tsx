@@ -1,6 +1,5 @@
 import {Header} from "./components/Header";
 import {Footer} from "./components/Footer";
-import {Gallery} from "./components/Gallery";
 import {Hero} from "@/components/Hero.tsx";
 
 function App() {
@@ -9,7 +8,6 @@ function App() {
         <Header/>
         <main>
           <Hero/>
-          {/*<Gallery/>*/}
         </main>
         <Footer/>
       </div>
