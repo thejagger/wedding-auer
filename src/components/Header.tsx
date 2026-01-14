@@ -1,4 +1,4 @@
-import {Moon, Sun} from "lucide-react";
+import {Moon, Sun, Heart} from "lucide-react";
 import {Button} from "./ui/button";
 import {useTheme} from "./theme-provider";
 
@@ -15,10 +15,11 @@ export function Header() {
 
   return (
       <header
-          className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          className="sticky top-0 z-50 w-full border-b border-rose-100/50 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-950/60">
         <div
             className="container flex h-16 max-w-screen-2xl items-center justify-between mx-auto px-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <Heart className="h-5 w-5 text-rose-500 dark:text-rose-400 fill-rose-500 dark:fill-rose-400"/>
             <h1 className="text-2xl font-bold">Johanna & Jonas Auer</h1>
           </div>
           <div className="flex items-center gap-2">

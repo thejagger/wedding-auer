@@ -18,6 +18,7 @@ import {Input} from "./ui/input";
 import {Label} from "./ui/label";
 import {Textarea} from "./ui/textarea";
 import {supabase} from "@/lib/supabase-client";
+import {Heart} from "lucide-react";
 
 // Form validation schema
 const signupSchema = z.object({
@@ -129,8 +130,15 @@ export function SignupDialog() {
   return (
       <AlertDialog open={open} onOpenChange={handleOpenChange}>
         <AlertDialogTrigger asChild>
-          <Button variant="outline">
-            {hasSignedUp ? "Danke für die Anmeldung" : "🎉 Anmeldung"}
+          <Button variant="outline" className="border-rose-200 hover:bg-rose-50 dark:border-gray-700 dark:hover:bg-gray-800">
+            {hasSignedUp ? (
+              "Danke für die Anmeldung"
+            ) : (
+              <>
+                <Heart className="h-4 w-4 mr-2 fill-rose-500 dark:fill-rose-400" />
+                Anmeldung
+              </>
+            )}
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent className="max-w-md">
@@ -219,8 +227,9 @@ export function SignupDialog() {
               <div className="py-6">
                 <div
                     className="rounded-md bg-green-50 dark:bg-green-900/20 p-4 text-center">
-                  <p className="text-lg font-medium text-green-600 dark:text-green-400">
-                    🎉 Erfolg! Ihr habt euch erfolgreich für die Hochzeit angemeldet!
+                  <p className="text-lg font-medium text-green-600 dark:text-green-400 flex items-center justify-center gap-2">
+                    <Heart className="h-5 w-5 fill-green-600 dark:fill-green-400" />
+                    Erfolg! Ihr habt euch erfolgreich für die Hochzeit angemeldet!
                   </p>
                 </div>
               </div>
