@@ -19,13 +19,13 @@ const placeholderImages = [
 
 export function WeddingSlideshow() {
   return (
-    <section className="py-20 px-6 bg-white dark:bg-gray-950">
+    <section className="py-20 px-6" style={{ backgroundColor: '#cd0f4d' }}>
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-center gap-8 mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+          <h2 className="text-3xl md:text-4xl font-bold text-white">
             Unsere Hochzeit
           </h2>
-          <div className="h-px w-24 bg-gradient-to-r from-transparent via-rose-300 to-transparent dark:via-rose-700" />
+          <div className="h-px w-24 bg-gradient-to-r from-transparent via-white/50 to-transparent" />
         </div>
         
         <Carousel
@@ -54,8 +54,8 @@ export function WeddingSlideshow() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-4 border-rose-200 hover:bg-rose-50 dark:border-gray-700 dark:hover:bg-gray-800" />
-          <CarouselNext className="right-4 border-rose-200 hover:bg-rose-50 dark:border-gray-700 dark:hover:bg-gray-800" />
+          <CarouselPrevious className="left-4 border-rose-200 hover:bg-rose-50" />
+          <CarouselNext className="right-4 border-rose-200 hover:bg-rose-50" />
         </Carousel>
       </div>
     </section>

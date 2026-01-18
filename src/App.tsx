@@ -6,7 +6,7 @@ import {Accommodations} from "@/components/Accommodations";
 
 function App() {
   return (
-      <div className="min-h-screen bg-white dark:bg-gray-950">
+      <div className="min-h-screen bg-white">
         <Header/>
         <main>
           <Hero/>

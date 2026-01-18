@@ -130,12 +130,12 @@ export function SignupDialog() {
   return (
       <AlertDialog open={open} onOpenChange={handleOpenChange}>
         <AlertDialogTrigger asChild>
-          <Button variant="outline" className="border-rose-200 hover:bg-rose-50 dark:border-gray-700 dark:hover:bg-gray-800">
+          <Button variant="outline" className="border-rose-200 hover:bg-rose-50">
             {hasSignedUp ? (
               "Danke für die Anmeldung"
             ) : (
               <>
-                <Heart className="h-4 w-4 mr-2 fill-rose-500 dark:fill-rose-400" />
+                <Heart className="h-4 w-4 mr-2 fill-rose-500" />
                 Anmeldung
               </>
             )}
@@ -198,8 +198,8 @@ export function SignupDialog() {
                 </div>
 
                 {error && (
-                    <div className="rounded-md bg-red-50 dark:bg-red-900/20 p-3">
-                      <p className="text-sm text-red-600 dark:text-red-400">
+                    <div className="rounded-md bg-red-50 p-3">
+                      <p className="text-sm text-red-600">
                         {error}
                       </p>
                     </div>
@@ -226,9 +226,9 @@ export function SignupDialog() {
           {success && (
               <div className="py-6">
                 <div
-                    className="rounded-md bg-green-50 dark:bg-green-900/20 p-4 text-center">
-                  <p className="text-lg font-medium text-green-600 dark:text-green-400 flex items-center justify-center gap-2">
-                    <Heart className="h-5 w-5 fill-green-600 dark:fill-green-400" />
+                    className="rounded-md bg-green-50 p-4 text-center">
+                  <p className="text-lg font-medium text-green-600 flex items-center justify-center gap-2">
+                    <Heart className="h-5 w-5 fill-green-600" />
                     Erfolg! Ihr habt euch erfolgreich für die Hochzeit angemeldet!
                   </p>
                 </div>

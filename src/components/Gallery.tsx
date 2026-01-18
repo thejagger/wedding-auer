@@ -8,7 +8,7 @@ const imageUrls = Object.values(imageModules);
 export function Gallery() {
   return (
       <section
-          className="py-20 px-6 bg-gradient-to-b from-amber-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
+          className="py-20 px-6 bg-gradient-to-b from-amber-50 via-white to-pink-50">
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
           {imageUrls.map((imageUrl, index) => {
             const url = imageUrl.default;
