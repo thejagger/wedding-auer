@@ -9,10 +9,6 @@ export function Hero() {
 
         <div className="relative mx-auto max-w-5xl">
           <div className="flex flex-col items-center gap-8 text-center">
-            <div className="flex items-center gap-4">
-              <SignupDialog/>
-            </div>
-
 
             <h1 className="flex flex-col text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl leading-[1.2]">
               JOHANNA <span className="font-mirabella">und</span> JONAS
@@ -25,8 +21,12 @@ export function Hero() {
             </div>
 
             <p className="max-w-2xl text-lg text-white sm:text-xl">
-              Damit wir alles gut planen können, bitten wir dich, uns kurz oben mitzuteilen, ob du kommst oder leider nicht.
+              Damit wir alles gut planen können, bitten wir dich, uns kurz mitzuteilen, ob du kommst oder leider nicht.
             </p>
+
+            <div className="flex items-center gap-4">
+              <SignupDialog/>
+            </div>
 
             <p className="max-w-2xl text-lg text-white sm:text-xl">
               Außerdem: Wenn du Allergien hast oder etwas Bestimmtes nicht isst, schreib das bitte dazu.
