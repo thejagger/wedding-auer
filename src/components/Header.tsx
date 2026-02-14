@@ -9,7 +9,7 @@ export function Header() {
             className="container flex h-16 max-w-screen-2xl items-center justify-between mx-auto px-4">
           <div className="flex items-center gap-3">
             <Heart className="h-5 w-5 text-rose-500 fill-rose-500"/>
-            <h1 className="text-2xl font-bold">JOHANNA <span className="font-mirabella">and</span> JONAS</h1>
+            <h1 className="text-2xl font-bold">JOHANNA <span className="font-mirabella">und</span> JONAS</h1>
           </div>
         </div>
       </header>

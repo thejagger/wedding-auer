@@ -7,7 +7,6 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -17,12 +16,15 @@ import {Button} from "./ui/button";
 import {Input} from "./ui/input";
 import {Label} from "./ui/label";
 import {Textarea} from "./ui/textarea";
-import {supabase} from "@/lib/supabase-client";
 import {Heart} from "lucide-react";
 
 // Form validation schema
 const signupSchema = z.object({
-  name: z.string().min(1, "Bitte gebt euren Namen ein!").max(100, "Der eingegebene Name ist zu lang."),
+  name: z.string().min(1, "Bitte gib deinen Namen ein!").max(100, "Der eingegebene Name ist zu lang."),
+  attending: z.enum(["Ja", "Nein"], {
+    invalid_type_error: "Bitte wähle aus, ob du kommts.",
+    required_error: "Bitte wähle aus, ob du kommts.",
+  }),
   amount: z.coerce.number().int().min(1, "Die Anzahl muss mindestens 1 sein."),
   description: z.string().max(500, "Die Beschreibung ist zu lange").optional(),
 });
@@ -47,6 +49,7 @@ export function SignupDialog() {
     resolver: zodResolver(signupSchema),
     defaultValues: {
       name: "",
+      attending: undefined,
       amount: 1,
       description: "",
     },
@@ -72,7 +75,7 @@ export function SignupDialog() {
 
   const onSubmit = async (data: SignupFormData) => {
     if (hasSignedUp) {
-      setError("Ihr seid bereits angemeldet!");
+      setError("Du bist bereits angemeldet!");
       return;
     }
 
@@ -81,19 +84,31 @@ export function SignupDialog() {
 
     try {
       const sessionId = getSessionId();
+      const scriptUrl = import.meta.env.VITE_GOOGLE_WEB_APP_SCRIPT_URL;
 
-      const {error: supabaseError} = await supabase
-          .from("birthday_signup")
-          .insert({
-            session_id: sessionId,
-            name: data.name,
-            amount: data.amount,
-            description: data.description || null,
-          });
-
-      if (supabaseError) {
-        throw supabaseError;
+      if (!scriptUrl) {
+        throw new Error("Google Web App Script URL ist nicht konfiguriert.");
       }
+
+      // Prepare data for Google Sheets
+      const formData = {
+        name: data.name,
+        attending: data.attending,
+        amount: data.amount,
+        description: data.description || "",
+        timestamp: new Date().toISOString(),
+        sessionId: sessionId,
+      };
+
+      // Send POST request to Google Web App Script
+      await fetch(scriptUrl, {
+        method: "POST",
+        mode: "no-cors", // Google Apps Script requires no-cors for web apps
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       // Mark as signed up
       setHasSignedUp(true);
@@ -110,7 +125,7 @@ export function SignupDialog() {
       setError(
           err instanceof Error
               ? err.message
-              : "Failed to sign up. Please try again."
+              : "Fehler beim Anmelden. Bitte versucht es erneut."
       );
     } finally {
       setIsSubmitting(false);
@@ -132,23 +147,18 @@ export function SignupDialog() {
         <AlertDialogTrigger asChild>
           <Button variant="outline" className="border-rose-200 hover:bg-rose-50">
             {hasSignedUp ? (
-              "Danke für die Anmeldung"
+              "Danke für's bescheid geben"
             ) : (
               <>
                 <Heart className="h-4 w-4 mr-2 fill-rose-500" />
-                Anmeldung
+                Bist du dabei?
               </>
             )}
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent className="max-w-md">
           <AlertDialogHeader>
-            <AlertDialogTitle>Anmeldung für die Hochzeit!</AlertDialogTitle>
-            <AlertDialogDescription>
-              {hasSignedUp
-                  ? "Sie haben sich bereits für diese Hochzeit angemeldet. Vielen Dank!"
-                  : "Bitte füllen Sie Ihre Daten aus, um sich für die Hochzeit anzumelden."}
-            </AlertDialogDescription>
+            <AlertDialogTitle>Zusage / Absage für die Hochzeit!</AlertDialogTitle>
           </AlertDialogHeader>
 
           {!hasSignedUp && !success && (
@@ -167,7 +177,36 @@ export function SignupDialog() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="amount">Anzahl an Gästen *</Label>
+                  <Label>Kommst du? *</Label>
+                  <div className="flex gap-6 mt-2">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                          type="radio"
+                          value="Ja"
+                          {...register("attending")}
+                          disabled={isSubmitting}
+                          className="w-4 h-4 text-rose-600 border-gray-300 focus:ring-rose-500"
+                      />
+                      <span className="text-sm">Ich bin dabei!</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                          type="radio"
+                          value="Nein"
+                          {...register("attending")}
+                          disabled={isSubmitting}
+                          className="w-4 h-4 text-rose-600 border-gray-300 focus:ring-rose-500"
+                      />
+                      <span className="text-sm">Ich kann leider nicht.</span>
+                    </label>
+                  </div>
+                  {errors.attending && (
+                      <p className="text-sm text-red-500">{errors.attending.message}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="amount">Anzahl *</Label>
                   <Input
                       id="amount"
                       type="number"
@@ -182,10 +221,10 @@ export function SignupDialog() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description">Zusatz (optional)</Label>
+                  <Label htmlFor="description">Zusatz</Label>
                   <Textarea
                       id="description"
-                      placeholder="Ihr persönlicher Antrag oder Spezialwünsche?"
+                      placeholder="Zusatz (z.B. Allergien, Unverträglichkeiten)?"
                       rows={3}
                       {...register("description")}
                       disabled={isSubmitting}
