@@ -151,7 +151,7 @@ export function SignupDialog() {
             ) : (
               <>
                 <Heart className="h-4 w-4 mr-2 fill-rose-500" />
-                Bist du dabei?
+                Bist du dabei? Klick hier.
               </>
             )}
           </Button>
